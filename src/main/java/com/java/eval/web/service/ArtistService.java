@@ -16,11 +16,10 @@ public class ArtistService {
     @Autowired
     private ArtistRepository artistRepository;
 
+    // Exercice 1
     public Artist findById(Integer id) {
         Optional<Artist> artist = artistRepository.findById(id);
-        if(!artist.isPresent()){
-            throw new EntityNotFoundException("L'artist d'identifiant " + id + " n'a pas été trouvé.");
-        }
+        if( !artist.isPresent() ) throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'a pas été trouvé.");
         return artist.get();
     }
 
