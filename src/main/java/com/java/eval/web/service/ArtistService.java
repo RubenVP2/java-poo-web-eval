@@ -5,8 +5,8 @@ import com.java.eval.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +21,11 @@ public class ArtistService {
         Optional<Artist> artist = artistRepository.findById(id);
         if( !artist.isPresent() ) throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'a pas été trouvé.");
         return artist.get();
+    }
+
+    // Exerice 2
+    public List<Artist> findByName(String name) {
+        return artistRepository.findByNameIgnoreCaseContaining(name);
     }
 
 }
