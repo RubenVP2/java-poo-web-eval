@@ -16,4 +16,13 @@ public class GlobalExceptionHandler {
         return entityNotFoundException.getMessage();
     }
 
+    // Exercice 3
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleIllegalArgumentException(IllegalArgumentException e) {
+        return e.getMessage();
+    }
+
+
+
 }

@@ -3,9 +3,15 @@ package com.java.eval.web.service;
 import com.java.eval.web.model.Artist;
 import com.java.eval.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import javax.persistence.EntityNotFoundException;
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +32,31 @@ public class ArtistService {
     // Exerice 2
     public List<Artist> findByName(String name) {
         return artistRepository.findByNameIgnoreCaseContaining(name);
+    }
+
+    // Exercice 3
+    public Page<Artist> findAllArtists(
+            Integer page,
+            Integer size,
+            String sortProperty,
+            Sort.Direction sortDirection
+    ) {
+        //Vérification de sortProperty
+        if(Arrays.stream(Artist.class.getDeclaredFields()).
+                map(Field::getName).
+                filter(s -> s.equals(sortProperty)).count() != 1){
+            throw new IllegalArgumentException("La propriété " + sortProperty + " n'existe pas !");
+        };
+
+        Pageable pageable = PageRequest.of(page,size,sortDirection, sortProperty);
+        Page<Artist> artists = artistRepository.findAll(pageable);
+        // Gestion des erreurs
+        if(page >= artists.getTotalPages()){
+            throw new IllegalArgumentException("Le numéro de page ne peut être supérieur à " + artists.getTotalPages());
+        } else if(artists.getTotalElements() == 0){
+            throw new EntityNotFoundException("Il n'y a aucun artistes dans la base de données");
+        }
+        return artists;
     }
 
 }
