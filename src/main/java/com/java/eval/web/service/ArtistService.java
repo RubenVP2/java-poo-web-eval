@@ -1,5 +1,6 @@
 package com.java.eval.web.service;
 
+import com.java.eval.web.exception.ConflictException;
 import com.java.eval.web.model.Artist;
 import com.java.eval.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -39,16 +41,19 @@ public class ArtistService {
             Integer page,
             Integer size,
             String sortProperty,
-            Sort.Direction sortDirection
+            String sortDirection
     ) {
         //Vérification de sortProperty
         if(Arrays.stream(Artist.class.getDeclaredFields()).
                 map(Field::getName).
                 filter(s -> s.equals(sortProperty)).count() != 1){
             throw new IllegalArgumentException("La propriété " + sortProperty + " n'existe pas !");
-        };
+        }
 
-        Pageable pageable = PageRequest.of(page,size,sortDirection, sortProperty);
+        if ( !"ASC".equalsIgnoreCase(sortDirection) && !"DESC".equalsIgnoreCase(sortDirection)) {
+            throw new IllegalArgumentException("Le sens de tri doit valoir ASC ou DESC");
+        }
+        Pageable pageable = PageRequest.of(page,size,Sort.Direction.fromString(sortDirection), sortProperty);
         Page<Artist> artists = artistRepository.findAll(pageable);
         // Gestion des erreurs
         if(page >= artists.getTotalPages()){
@@ -57,6 +62,14 @@ public class ArtistService {
             throw new EntityNotFoundException("Il n'y a aucun artistes dans la base de données");
         }
         return artists;
+    }
+
+    // Exercice 4
+    public <T extends Artist> T creerArtist(@Valid T a) throws ConflictException {
+        if(artistRepository.existsById(a.getId())) {
+            throw new ConflictException("L'artiste d'identifiant " + a.getId() + " existe déjà !");
+        }
+        return artistRepository.save(a);
     }
 
 }

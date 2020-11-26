@@ -1,15 +1,13 @@
 package com.java.eval.web.controller;
+import com.java.eval.web.exception.ConflictException;
 import com.java.eval.web.model.Artist;
 import com.java.eval.web.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 
 @RestController
@@ -34,8 +32,14 @@ public class ArtistController {
     public Page<Artist> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size,
-            @RequestParam(value = "sortProperty", defaultValue = "matricule") String sortProperty,
-            @RequestParam(value = "sortDirection", defaultValue = "ASC") Sort.Direction sortDirection){
+            @RequestParam(value = "sortProperty", defaultValue = "name") String sortProperty,
+            @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection){
         return artistService.findAllArtists(page, size, sortProperty, sortDirection);
+    }
+
+    //Exercice 4
+    @PostMapping(value= "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Artist createArtist(@RequestBody Artist artist) throws ConflictException {
+        return artistService.creerArtist(artist);
     }
 }
