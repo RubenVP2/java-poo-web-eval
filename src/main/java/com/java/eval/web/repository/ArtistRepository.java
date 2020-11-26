@@ -20,4 +20,12 @@ public interface ArtistRepository extends PagingAndSortingRepository<Artist, Int
     // Exercice 3
     @Override
     Page<Artist> findAll(Pageable pageable);
+
+    // Exercice 4
+    @Override
+    <S extends Artist> S save(S s);
+
+    // Exercice 5
+    @Override
+    boolean existsById(Integer integer);
 }

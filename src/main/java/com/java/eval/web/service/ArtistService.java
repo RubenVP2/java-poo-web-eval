@@ -72,4 +72,15 @@ public class ArtistService {
         return artistRepository.save(a);
     }
 
+    // Exercice 5
+    public <T extends Artist> T updateArtist(Integer id, @Valid T artist) {
+        if(!artistRepository.existsById(id)) {
+            throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+        }
+        if(!id.equals(artist.getId())) {
+            throw new IllegalArgumentException("Requête invalide");
+        }
+        return artistRepository.save(artist);
+    }
+
 }

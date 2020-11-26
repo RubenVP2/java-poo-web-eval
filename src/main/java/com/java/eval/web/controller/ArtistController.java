@@ -42,4 +42,10 @@ public class ArtistController {
     public Artist createArtist(@RequestBody Artist artist) throws ConflictException {
         return artistService.creerArtist(artist);
     }
+
+    // Exercice 5
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public Artist updateArtist(@PathVariable("id") Integer id, @RequestBody Artist artist){
+        return this.artistService.updateArtist(id,artist);
+    }
 }
