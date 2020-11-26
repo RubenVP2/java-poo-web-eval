@@ -28,4 +28,8 @@ public interface ArtistRepository extends PagingAndSortingRepository<Artist, Int
     // Exercice 5
     @Override
     boolean existsById(Integer integer);
+
+    // Exercice 6
+    @Override
+    void deleteById(Integer integer);
 }

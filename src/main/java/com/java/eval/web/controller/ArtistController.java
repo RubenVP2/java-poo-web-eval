@@ -4,6 +4,7 @@ import com.java.eval.web.model.Artist;
 import com.java.eval.web.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +48,12 @@ public class ArtistController {
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
     public Artist updateArtist(@PathVariable("id") Integer id, @RequestBody Artist artist){
         return this.artistService.updateArtist(id,artist);
+    }
+
+    // Exercice 6
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteArtist(@PathVariable("id") Integer id) {
+        this.artistService.deleteArtist(id);
     }
 }

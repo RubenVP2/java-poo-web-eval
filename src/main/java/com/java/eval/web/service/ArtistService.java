@@ -83,4 +83,8 @@ public class ArtistService {
         return artistRepository.save(artist);
     }
 
+    // Exercice 6
+    public void deleteArtist(Integer id) {
+        artistRepository.deleteById(id);
+    }
 }
