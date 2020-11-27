@@ -11,4 +11,8 @@ public interface AlbumRepository extends PagingAndSortingRepository<Album, Integ
     <S extends Album> S save(S s);
 
     Optional<Album> findByTitleIgnoreCase(String title);
+
+    // Exercice 8
+    @Override
+    void deleteById(Integer integer);
 }

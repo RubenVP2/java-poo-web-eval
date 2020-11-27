@@ -1,6 +1,5 @@
 package com.java.eval.web;
 
-import com.java.eval.web.model.Artist;
 import com.java.eval.web.repository.AlbumRepository;
 import com.java.eval.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,13 +4,11 @@ import com.java.eval.web.exception.ConflictException;
 import com.java.eval.web.model.Album;
 import com.java.eval.web.model.Artist;
 import com.java.eval.web.repository.AlbumRepository;
-import com.java.eval.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 
 @Service
 @Validated
@@ -32,5 +30,10 @@ public class AlbumService {
         }
         alb.setArtist(a);
         return albumRepository.save(alb);
+    }
+
+    // Exercice 8
+    public void deleteAlbum(Integer id) {
+        albumRepository.deleteById(id);
     }
 }
