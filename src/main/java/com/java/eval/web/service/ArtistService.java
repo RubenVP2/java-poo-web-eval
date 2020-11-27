@@ -65,9 +65,9 @@ public class ArtistService {
     }
 
     // Exercice 4
-    public <T extends Artist> T creerArtist(@Valid T a) throws ConflictException {
-        if(artistRepository.existsById(a.getId())) {
-            throw new ConflictException("L'artiste d'identifiant " + a.getId() + " existe déjà !");
+    public Artist creerArtist(Artist a) throws ConflictException {
+        if( artistRepository.findByNameIgnoreCase(a.getName()).isPresent()) {
+            throw new ConflictException("L'artiste de nom " + a.getName() + " existe déjà !");
         }
         return artistRepository.save(a);
     }

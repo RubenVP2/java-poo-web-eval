@@ -25,6 +25,8 @@ public interface ArtistRepository extends PagingAndSortingRepository<Artist, Int
     @Override
     <S extends Artist> S save(S s);
 
+    Optional<Artist> findByNameIgnoreCase(String name);
+
     // Exercice 5
     @Override
     boolean existsById(Integer integer);

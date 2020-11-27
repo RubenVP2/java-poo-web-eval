@@ -23,6 +23,13 @@ public class GlobalExceptionHandler {
         return e.getMessage();
     }
 
+    // Exercice 4
+    @ExceptionHandler(ConflictException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleConflictException(ConflictException e) {
+        return e.getMessage();
+    }
+
 
 
 }
