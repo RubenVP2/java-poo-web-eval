@@ -34,6 +34,9 @@ public class AlbumService {
 
     // Exercice 8
     public void deleteAlbum(Integer id) {
+        if ( !albumRepository.existsById(id) ) {
+            throw new EntityNotFoundException("L'album avec l'id : " + id + " n'existe pas !");
+        }
         albumRepository.deleteById(id);
     }
 }

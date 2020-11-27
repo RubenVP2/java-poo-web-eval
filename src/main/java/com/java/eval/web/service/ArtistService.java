@@ -86,6 +86,9 @@ public class ArtistService {
 
     // Exercice 6
     public void deleteArtist(Integer id) {
+        if ( !artistRepository.existsById(id) ) {
+            throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas !");
+        }
         artistRepository.deleteById(id);
     }
 }
